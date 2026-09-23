@@ -4,6 +4,7 @@
 
 - **Python e FastAPI:** lo scheletro disponibile usava già Python, SQLAlchemy e FastAPI. Continuare con lo stack riduce setup e consente a chi revisiona l’assignment di concentrarsi sul modello dati e sul flusso.
 - **SQLite:** basta per un prototipo locale e rende il seed immediato. `create_all` crea le tabelle, ma non sostituisce migrazioni se il modello cambia dopo la prima esecuzione.
+- **Docker Compose:** offre un avvio riproducibile con volumi separati per database e upload, ma espone l’app solo su localhost e non configura autenticazione, TLS o un database server: è packaging per demo locale, non deployment pubblico.
 - **Annuncio e variante separati:** canale, formato, stato e luogo appartengono all’annuncio; il copy, i campi del canale e la creative appartengono alla variante. Questo permette copy alternativi per uno stesso annuncio e luoghi diversi per annunci della stessa offerta.
 - **JSON per `channel_fields`:** evita un campo SQL per ogni canale, mantenendo flessibile l’output. Le varianti LLM usano campi consentiti e prevedibili; questa scelta non impone uno schema tipizzato distinto per ogni job board.
 - **HTTPX diretto verso Responses:** evita un SDK aggiuntivo e mantiene il confine provider in un file. La richiesta usa JSON Schema rigoroso e il progetto fa comunque validazione locale. `gpt-5.6-terra` è il default documentato come equilibrio tra capacità e costo; account e modelli abilitati possono variare, quindi resta configurabile.
@@ -25,6 +26,14 @@
 - Cronologia di ogni modifica: una PATCH cambia la variante esistente e marca `origin=manual`; per conservare ogni revisione servirebbe una tabella di versioni.
 - Pulizia automatica delle immagini sostituite: la nuova associazione è transazionale rispetto al record, ma il vecchio file può restare nella directory upload.
 - Modalità offline per la generazione: senza chiave si possono consultare e modificare i dati esistenti, ma non creare varianti LLM.
+
+## Priorità con un giorno in più
+
+1. **Verifiche automatiche mirate:** aggiungere test con database temporaneo e provider simulato per creazione atomica/rollback, filtri combinati, modifica parziale, ownership delle varianti, upload e risposte LLM incomplete. La priorità è ridurre il rischio di regressioni senza dipendere da una chiave o da chiamate fatturabili.
+2. **Valutazione della qualità dei copy:** raccogliere output reali per canali e formati, poi rivederli con una persona del team Delivery usando una checklist su fedeltà ai fatti, leggibilità, lunghezza e campi richiesti. Non automatizzerei la pubblicazione né considererei un output plausibile come approvato.
+3. **Rafforzamento per uso condiviso:** aggiungere autenticazione e autorizzazioni, migrazioni SQL, limiti di concorrenza e storage oggetti per le immagini. Questi cambi dipendono dall’ambiente di deploy e non sono necessari per una demo locale.
+
+Il prototipo resta deliberatamente locale: l’upload di asset e la UI editoriale vanno oltre il minimo backend, ma rendono ispezionabile il flusso creativo. Per rispettare strettamente un timebox, avrei mantenuto prima il seed, i casi d’uso backend e la UI essenziale; hardening e integrazioni restano fuori.
 
 ## Limiti da tenere presenti
 

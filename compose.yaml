@@ -1,0 +1,20 @@
+services:
+  app:
+    build: .
+    ports:
+      - "127.0.0.1:${APP_PORT:-8000}:8000"
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-5.6-terra}
+      OPENAI_TIMEOUT_SECONDS: ${OPENAI_TIMEOUT_SECONDS:-45}
+      DATABASE_URL: sqlite:////app/data/gyver.db
+      UPLOAD_DIR: /app/uploads
+      MAX_UPLOAD_MB: ${MAX_UPLOAD_MB:-8}
+    volumes:
+      - gyver_data:/app/data
+      - gyver_uploads:/app/uploads
+    restart: unless-stopped
+
+volumes:
+  gyver_data:
+  gyver_uploads:
