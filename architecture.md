@@ -2,7 +2,7 @@
 
 ## Struttura
 
-Il progetto mantiene una singola applicazione Python: FastAPI espone l’API e serve una pagina HTML con JavaScript vanilla. SQLAlchemy persiste i dati in SQLite; Pydantic definisce input e output. `app/llm/` è il confine con OpenAI e HTTPX, mentre i servizi coordinano repository, generazione e transazioni.
+Il progetto mantiene una singola applicazione Python: FastAPI espone l’API e serve una pagina HTML con JavaScript vanilla. L’interfaccia usa Bootstrap 5.3.8 per la griglia responsive e CSS locale per lo stile specifico; Bootstrap, i font e il logo arrivano da CDN. SQLAlchemy persiste i dati in SQLite; Pydantic definisce input e output. `app/llm/` è il confine con OpenAI e HTTPX, mentre i servizi coordinano repository, generazione e transazioni.
 
 ```mermaid
 erDiagram
@@ -50,7 +50,7 @@ Non c’è una tabella separata per canale: gli enum sono sufficienti per questo
 
 ## Flusso dei dati
 
-1. `GET /api/job-offers` rende disponibili le offerte salvate. `python -m app.seed` inserisce l’offerta dimostrativa `jo_001` e annunci di esempio senza duplicarli.
+1. `GET /api/job-offers` rende disponibili le offerte salvate. `python -m app.seed` inserisce l’offerta dimostrativa `jo_001` (tecnico fotovoltaico), tre offerte demo aggiuntive (manutentore elettrico, installatore di climatizzazione e project manager per le rinnovabili) e annunci di esempio collegati a `jo_001`, senza duplicarli.
 2. La UI invia a `POST /api/ads` offerta, canale, formato e luogo facoltativo. Se il luogo manca, il servizio usa località e provincia dell’offerta.
 3. Il servizio aggiunge l’annuncio alla sessione, costruisce il contesto LLM dai campi interni, omette via/civico e invia una richiesta sincrona a `POST /v1/responses` con output JSON Schema rigoroso.
 4. `VariantDraft` valida forma, tipi, campi ammessi e coerenza tra formato e contenuto. Le regole richiedono body per `text`, creative per `image`, entrambi per `image_text`; Indeed richiede il campo esperienza.

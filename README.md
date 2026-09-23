@@ -16,7 +16,7 @@ python -m pip install -r requirements.txt
 cp .env.example .env
 ```
 
-Imposta `OPENAI_API_KEY` nel file `.env` per abilitare la generazione. La chiave si crea dalla [dashboard API di OpenAI](https://platform.openai.com/api-keys). Non inserirla nei file sorgente o nei commit. `OPENAI_MODEL` deve essere un modello abilitato per il tuo account che supporta Responses e output JSON Schema strutturato; il nome si può cambiare nel `.env`. Il default `gpt-5.6-luna` privilegia il costo e supporta l'output strutturato richiesto dall'app; consulta la [documentazione ufficiale dei modelli](https://developers.openai.com/api/docs/models/gpt-4-and-gpt-4-turbo) per prezzi e disponibilità aggiornati.
+Imposta `OPENAI_API_KEY` nel file `.env` per abilitare la generazione. La chiave si crea dalla [dashboard API di OpenAI](https://platform.openai.com/api-keys). Non inserirla nei file sorgente o nei commit. `OPENAI_MODEL` deve essere un modello abilitato per il tuo account che supporta Responses e output JSON Schema strutturato; il nome si può cambiare nel `.env`. Il default `gpt-5.6-luna` privilegia il costo e supporta l'output strutturato richiesto dall'app; consulta la [scheda ufficiale GPT-5.6 Luna](https://developers.openai.com/api/docs/models/gpt-5.6-luna) per capacità e disponibilità aggiornate.
 
 ## Configurazione
 
@@ -52,7 +52,7 @@ uvicorn app.main:app --reload
 - API e schema interattivo: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
 - Health check: [http://127.0.0.1:8000/api/health](http://127.0.0.1:8000/api/health)
 
-Non serve un processo frontend separato né una build JavaScript.
+Non serve un processo frontend separato né una build JavaScript. Bootstrap 5.3.8, i font Archivo/DM Sans e il logo Gyver sono caricati da CDN esterni: serve una connessione Internet perché stile responsive, font e logo siano disponibili. Senza rete, Bootstrap non è locale e il layout può degradare.
 
 ## Avvio con Docker
 

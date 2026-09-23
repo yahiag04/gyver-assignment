@@ -7,7 +7,7 @@
 - **Docker Compose:** offre un avvio riproducibile con volumi separati per database e upload, ma espone l’app solo su localhost e non configura autenticazione, TLS o un database server: è packaging per demo locale, non deployment pubblico.
 - **Annuncio e variante separati:** canale, formato, stato e luogo appartengono all’annuncio; il copy, i campi del canale e la creative appartengono alla variante. Questo permette copy alternativi per uno stesso annuncio e luoghi diversi per annunci della stessa offerta.
 - **JSON per `channel_fields`:** evita un campo SQL per ogni canale, mantenendo flessibile l’output. Le varianti LLM usano campi consentiti e prevedibili; questa scelta non impone uno schema tipizzato distinto per ogni job board.
-- **HTTPX diretto verso Responses:** evita un SDK aggiuntivo e mantiene il confine provider in un file. La richiesta usa JSON Schema rigoroso e il progetto fa comunque validazione locale. `gpt-5.6-terra` è il default documentato come equilibrio tra capacità e costo; account e modelli abilitati possono variare, quindi resta configurabile.
+- **HTTPX diretto verso Responses:** evita un SDK aggiuntivo e mantiene il confine provider in un file. La richiesta usa JSON Schema rigoroso e il progetto fa comunque validazione locale. `gpt-5.6-luna` è il default configurato per contenere il costo; account e modelli abilitati possono variare, quindi resta configurabile nel `.env`.
 - **Una sola chiamata sincrona:** semplice da seguire e sufficiente per l’uso dimostrativo; richieste lente occupano il worker e non ci sono job queue o retry automatici.
 
 ## Ambiguità interpretate
@@ -29,7 +29,7 @@
 
 ## Priorità con un giorno in più
 
-1. **Verifiche automatiche mirate:** aggiungere test con database temporaneo e provider simulato per creazione atomica/rollback, filtri combinati, modifica parziale, ownership delle varianti, upload e risposte LLM incomplete. La priorità è ridurre il rischio di regressioni senza dipendere da una chiave o da chiamate fatturabili.
+1. **Ampliare le verifiche automatiche:** estendere la suite esistente con provider simulato per creazione atomica/rollback, filtri combinati, modifica parziale, ownership delle varianti e risposte LLM incomplete. I test già coprono persistenza e filtri di base, seed idempotente, configurazione e vincoli di upload. La priorità è ridurre il rischio di regressioni senza dipendere da una chiave o da chiamate fatturabili.
 2. **Valutazione della qualità dei copy:** raccogliere output reali per canali e formati, poi rivederli con una persona del team Delivery usando una checklist su fedeltà ai fatti, leggibilità, lunghezza e campi richiesti. Non automatizzerei la pubblicazione né considererei un output plausibile come approvato.
 3. **Rafforzamento per uso condiviso:** aggiungere autenticazione e autorizzazioni, migrazioni SQL, limiti di concorrenza e storage oggetti per le immagini. Questi cambi dipendono dall’ambiente di deploy e non sono necessari per una demo locale.
 
