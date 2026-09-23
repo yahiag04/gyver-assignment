@@ -40,7 +40,7 @@ Inizializza il database e inserisci i dati di esempio:
 python -m app.seed
 ```
 
-Il comando crea lo schema e inserisce l’offerta `jo_001` con annunci Indeed, WhatsApp e Instagram. È ripetibile: non duplica i record dimostrativi già presenti. Il database SQLite viene creato sotto `data/` ed è escluso da Git; puoi rilanciare il seed per ricostruirlo.
+Il comando crea lo schema, l’offerta `jo_001` (tecnico fotovoltaico) e tre offerte dimostrative aggiuntive: tecnico manutentore elettrico, installatore di climatizzazione e project manager per le energie rinnovabili. Gli annunci demo Indeed, WhatsApp e Instagram restano collegati all’offerta fotovoltaica. È ripetibile: non duplica i record dimostrativi già presenti. Il database SQLite viene creato sotto `data/` ed è escluso da Git; puoi rilanciare il seed per ricostruirlo.
 
 ## Avvio
 

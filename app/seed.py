@@ -80,6 +80,66 @@ OFFER = {
     ),
 }
 
+DEMO_OFFERS = [
+    {
+        "id": "jo_demo_maintenance",
+        "title": "Tecnico manutentore elettrico",
+        "company_name": "AB Group SpA",
+        "status": "active",
+        "location": {"locality": "Orzinuovi", "province": "Brescia", "region": "Lombardia", "country_code": "IT"},
+        "contract_type": "Tempo indeterminato",
+        "min_exp_years": 2,
+        "max_exp_years": 5,
+        "ral_min": 28000,
+        "ral_max": 34000,
+        "currency": "EUR",
+        "required_skills": ["Manutenzione elettrica", "Ricerca guasti"],
+        "role_description": "Manutenzione preventiva e correttiva di impianti elettrici industriali e gruppi di cogenerazione.",
+        "location_and_hours": "Sede di Orzinuovi, disponibilità a brevi trasferte presso i clienti.",
+        "company_description": "AB Group sviluppa soluzioni per cogenerazione, biogas e rinnovabili.",
+        "requirements_description": "Diploma elettrico o elettrotecnico, esperienza nella manutenzione industriale e capacità di leggere schemi elettrici.",
+        "compensation_package": "Contratto a tempo indeterminato, RAL 28.000-34.000 EUR in base all'esperienza.",
+    },
+    {
+        "id": "jo_demo_installer",
+        "title": "Installatore impianti di climatizzazione",
+        "company_name": "ClimaTech Lombardia Srl",
+        "status": "active",
+        "location": {"locality": "Bergamo", "province": "Bergamo", "region": "Lombardia", "country_code": "IT"},
+        "contract_type": "Tempo indeterminato",
+        "min_exp_years": 1,
+        "max_exp_years": 4,
+        "ral_min": 25000,
+        "ral_max": 32000,
+        "currency": "EUR",
+        "required_skills": ["Installazione HVAC", "Patentino F-gas"],
+        "role_description": "Installazione e avviamento di impianti di climatizzazione e pompe di calore in ambito residenziale e commerciale.",
+        "location_and_hours": "Cantieri nell'area di Bergamo e provincia, orario giornaliero.",
+        "company_description": "ClimaTech Lombardia installa e mantiene impianti di climatizzazione ad alta efficienza.",
+        "requirements_description": "Esperienza nell'installazione HVAC, manualità e preferibile patentino F-gas.",
+        "compensation_package": "Contratto a tempo indeterminato, RAL 25.000-32.000 EUR, furgone aziendale per le trasferte di lavoro.",
+    },
+    {
+        "id": "jo_demo_project_manager",
+        "title": "Project manager energie rinnovabili",
+        "company_name": "Energia Futura Srl",
+        "status": "active",
+        "location": {"locality": "Milano", "province": "Milano", "region": "Lombardia", "country_code": "IT"},
+        "contract_type": "Tempo indeterminato",
+        "min_exp_years": 4,
+        "max_exp_years": 8,
+        "ral_min": 40000,
+        "ral_max": 52000,
+        "currency": "EUR",
+        "required_skills": ["Gestione commesse", "Energie rinnovabili", "Project planning"],
+        "role_description": "Pianificazione e coordinamento di progetti per impianti rinnovabili, dalla progettazione alla messa in esercizio.",
+        "location_and_hours": "Sede di Milano con visite periodiche ai cantieri in Lombardia.",
+        "company_description": "Energia Futura sviluppa progetti per la transizione energetica e gli impianti rinnovabili.",
+        "requirements_description": "Laurea tecnica o esperienza equivalente, almeno quattro anni nella gestione di progetti energetici e familiarità con budget e cronoprogrammi.",
+        "compensation_package": "Contratto a tempo indeterminato, RAL 40.000-52.000 EUR in base all'esperienza.",
+    },
+]
+
 
 def seed_database(session: Session) -> None:
     offer = session.get(JobOffer, "jo_001")
@@ -87,6 +147,10 @@ def seed_database(session: Session) -> None:
         offer = JobOffer(**OFFER)
         session.add(offer)
         session.flush()
+
+    for sample_offer in DEMO_OFFERS:
+        if session.get(JobOffer, sample_offer["id"]) is None:
+            session.add(JobOffer(**sample_offer))
 
     samples = [
         (

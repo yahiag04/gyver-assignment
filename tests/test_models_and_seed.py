@@ -94,7 +94,12 @@ def test_seed_is_idempotent_and_creates_assignment_examples(tmp_path):
         offers = JobOfferRepository(session).list_job_offers()
         ads = AdRepository(session).list_ads(job_offer_id="jo_001")
 
-        assert [offer.id for offer in offers] == ["jo_001"]
+        assert {offer.id: offer.title for offer in offers} == {
+            "jo_001": "Tecnico elettricista fotovoltaico",
+            "jo_demo_maintenance": "Tecnico manutentore elettrico",
+            "jo_demo_installer": "Installatore impianti di climatizzazione",
+            "jo_demo_project_manager": "Project manager energie rinnovabili",
+        }
         assert len(ads) == 3
         assert {(ad.channel, ad.ad_format) for ad in ads} == {
             (Channel.INDEED, AdFormat.TEXT),
