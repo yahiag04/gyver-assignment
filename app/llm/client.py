@@ -93,6 +93,8 @@ class OpenAIClient:
         except ValueError as exc:
             raise LLMOutputError("Il provider ha restituito una risposta non JSON") from exc
 
+        if not isinstance(response_data, dict):
+            raise LLMOutputError("Il provider ha restituito una risposta inattesa")
         if response_data.get("status") != "completed":
             raise LLMOutputError("La generazione non è stata completata")
         output_text = self._extract_output_text(response_data)
@@ -126,10 +128,20 @@ class OpenAIClient:
 
     @staticmethod
     def _extract_output_text(response: dict[str, Any]) -> str | None:
-        for item in response.get("output", []):
+        output = response.get("output", [])
+        if not isinstance(output, list):
+            raise LLMOutputError("Il provider ha restituito una risposta inattesa")
+        for item in output:
+            if not isinstance(item, dict):
+                continue
             if item.get("type") != "message":
                 continue
-            for content in item.get("content", []):
+            contents = item.get("content", [])
+            if not isinstance(contents, list):
+                continue
+            for content in contents:
+                if not isinstance(content, dict):
+                    continue
                 if content.get("type") == "refusal":
                     raise LLMOutputError("Il provider ha rifiutato di generare questo contenuto")
                 if content.get("type") == "output_text":
