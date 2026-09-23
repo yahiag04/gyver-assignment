@@ -1,0 +1,24 @@
+# Local source brief and engineering workflow documents
+/trascrizione-assignment.md
+/docs/superpowers/
+/.superpowers/
+
+# Isolated implementation worktrees
+/.worktrees/
+
+# Secrets and Python environments
+.env
+.DS_Store
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Runtime persistence and uploads
+*.db
+*.sqlite
+*.sqlite3
+/data/*
+/uploads/*
+!/uploads/.gitkeep
