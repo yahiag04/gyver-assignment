@@ -18,6 +18,16 @@ def test_home_page_displays_the_annunci_application(client):
     assert "Annunci Gyver" in response.text
 
 
+def test_home_page_uses_bootstrap_responsive_layout_and_dark_navbar(client):
+    response = client.get("/")
+
+    assert "bootstrap@5.3.8/dist/css/bootstrap.min.css" in response.text
+    assert 'class="navbar navbar-dark navbar-gyver"' in response.text
+    assert 'class="workspace row g-3"' in response.text
+    assert "col-12 col-xl-4" in response.text
+    assert "col-12 col-xl-8" in response.text
+
+
 def _png_bytes(width, height):
     image = Image.new("RGB", (width, height), color="white")
     buffer = BytesIO()

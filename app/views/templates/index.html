@@ -4,24 +4,26 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Annunci Gyver</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/styles.css">
   </head>
   <body>
-    <main class="shell">
-      <header class="page-header">
-        <a class="brand" href="https://gyver.work" aria-label="Gyver — homepage">
-          <img src="https://cdn.prod.website-files.com/68b819449c6bb4c845a087d8/68d14ddf2cd5446c831c74f4_webclip_icon%20(200%20x%20100%20px).svg" alt="Gyver" width="120" height="60">
-          <span class="brand-divider" aria-hidden="true"></span>
-          <span>Recruitment<br>Studio</span>
+    <header class="navbar navbar-dark navbar-gyver">
+      <div class="gyver-navbar-inner">
+        <a class="navbar-brand brand" href="https://gyver.work" aria-label="Gyver — homepage">
+          <img src="https://cdn.prod.website-files.com/68b819449c6bb4c845a087d8/68d14ddf2cd5446c831c74f4_webclip_icon%20(200%20x%20100%20px).svg" alt="Gyver" width="100" height="50">
+          <span>Recruitment Studio</span>
         </a>
-        <div class="page-title">
+        <div class="navbar-app-title">
           <h1>Annunci</h1>
           <p>Gestisci copy e varianti per ogni canale di pubblicazione.</p>
         </div>
-      </header>
+      </div>
+    </header>
+    <main class="shell container-fluid">
       <p id="notice" class="notice" role="status" aria-live="polite">Caricamento annunci…</p>
 
       <section class="panel create-panel" aria-labelledby="create-title">
@@ -32,40 +34,40 @@
           </div>
           <p class="muted">Parti da una job offer. Copy e creative vengono generati per il canale scelto.</p>
         </div>
-        <form id="create-form" class="form-grid">
-          <label>Job offer
-            <select id="create-offer" name="job_offer_id" required></select>
+        <form id="create-form" class="row g-3 align-items-end">
+          <label class="col-12 col-md-6 col-xl-3">Job offer
+            <select id="create-offer" name="job_offer_id" class="form-select" required></select>
           </label>
-          <label>Canale
-            <select name="channel" required>
+          <label class="col-12 col-md-6 col-xl-2">Canale
+            <select name="channel" class="form-select" required>
               <option value="indeed">Indeed</option>
               <option value="whatsapp">WhatsApp</option>
               <option value="instagram">Instagram</option>
               <option value="tiktok">TikTok</option>
             </select>
           </label>
-          <label>Formato
-            <select name="format" required>
+          <label class="col-12 col-md-6 col-xl-2">Formato
+            <select name="format" class="form-select" required>
               <option value="text">Solo testo</option>
               <option value="image">Solo immagine</option>
               <option value="image_text">Immagine e testo</option>
             </select>
           </label>
-          <label>Luogo di pubblicazione <span class="optional">facoltativo</span>
-            <input name="location" maxlength="240" placeholder="Usa il luogo della job offer">
+          <label class="col-12 col-md-6 col-xl-3">Luogo di pubblicazione <span class="optional">facoltativo</span>
+            <input class="form-control" name="location" maxlength="240" placeholder="Usa il luogo della job offer">
           </label>
-          <div class="form-actions">
+          <div class="col-12 col-xl-2 d-grid">
             <button class="button primary" type="submit">Crea e genera copy</button>
           </div>
         </form>
       </section>
 
-      <section class="filters" aria-label="Filtra annunci">
-        <label>Offerta
-          <select id="filter-offer"><option value="">Tutte le offerte</option></select>
+      <section class="filters row g-3" aria-label="Filtra annunci">
+        <label class="col-12 col-sm-6 col-lg-3">Offerta
+          <select id="filter-offer" class="form-select"><option value="">Tutte le offerte</option></select>
         </label>
-        <label>Canale
-          <select id="filter-channel">
+        <label class="col-12 col-sm-6 col-lg-3">Canale
+          <select id="filter-channel" class="form-select">
             <option value="">Tutti i canali</option>
             <option value="indeed">Indeed</option>
             <option value="whatsapp">WhatsApp</option>
@@ -75,8 +77,8 @@
         </label>
       </section>
 
-      <section class="workspace" aria-label="Gestione annunci">
-        <aside class="panel ads-panel" aria-labelledby="ads-title">
+      <section class="workspace row g-3" aria-label="Gestione annunci">
+        <aside class="panel ads-panel col-12 col-xl-4" aria-labelledby="ads-title">
           <div class="section-heading compact">
             <div><p class="eyebrow">Archivio</p><h2 id="ads-title">Annunci</h2></div>
             <span id="ads-count" class="count">0</span>
@@ -84,7 +86,7 @@
           <div id="ads-list" class="ads-list"></div>
         </aside>
 
-        <section id="detail" class="panel detail-panel" aria-labelledby="detail-title" hidden>
+        <section id="detail" class="panel detail-panel col-12 col-xl-8" aria-labelledby="detail-title" hidden>
           <div class="section-heading">
             <div><p class="eyebrow">Dettaglio annuncio</p><h2 id="detail-title">—</h2></div>
             <div class="detail-actions">
@@ -95,17 +97,17 @@
           <div class="metadata-block">
             <p id="detail-offer" class="muted"></p>
             <div id="ad-badges" class="badges"></div>
-            <form id="metadata-form" class="metadata-form">
-              <label>Luogo <input name="location" maxlength="240" required></label>
-              <label>Stato
-                <select name="status">
+            <form id="metadata-form" class="metadata-form row g-3 align-items-end">
+              <label class="col-12 col-md-5">Luogo <input class="form-control" name="location" maxlength="240" required></label>
+              <label class="col-12 col-md-3">Stato
+                <select name="status" class="form-select">
                   <option value="draft">Bozza</option>
                   <option value="ready">Pronto</option>
                   <option value="published">Pubblicato</option>
                   <option value="archived">Archiviato</option>
                 </select>
               </label>
-              <button class="button secondary" type="submit">Salva dettagli</button>
+              <div class="col-12 col-md-4 d-grid"><button class="button secondary" type="submit">Salva dettagli</button></div>
             </form>
           </div>
           <div class="variant-section">
@@ -120,24 +122,24 @@
               <label id="body-field">Testo annuncio <textarea name="body_text" rows="9"></textarea></label>
               <label>Requisiti <span class="optional">uno per riga</span><textarea name="requirements" rows="4"></textarea></label>
               <label>Retribuzione e benefit <textarea name="compensation" rows="3"></textarea></label>
-              <fieldset class="channel-fields">
-                <legend>Campi del canale</legend>
-                <label>Esperienza richiesta <input name="field_experience"></label>
-                <label>Tipo di contratto <input name="field_employment_type"></label>
-                <label>Orario <input name="field_schedule"></label>
-                <label>Link candidatura <input name="field_application_url" inputmode="url"></label>
+              <fieldset class="channel-fields row g-3">
+                <legend class="col-12">Campi del canale</legend>
+                <label class="col-12 col-md-6">Esperienza richiesta <input class="form-control" name="field_experience"></label>
+                <label class="col-12 col-md-6">Tipo di contratto <input class="form-control" name="field_employment_type"></label>
+                <label class="col-12 col-md-6">Orario <input class="form-control" name="field_schedule"></label>
+                <label class="col-12 col-md-6">Link candidatura <input class="form-control" name="field_application_url" inputmode="url"></label>
               </fieldset>
               <div id="creative-fields" class="creative-fields">
                 <p class="field-label">Creatività</p>
                 <label>Testo da inserire nell’immagine <textarea name="creative_text" rows="3"></textarea></label>
                 <label>Brief visuale <textarea name="creative_brief" rows="3"></textarea></label>
-                <div id="image-asset" class="image-asset">
-                  <label>Immagine <span class="optional">PNG, JPEG o WebP · max {{ max_upload_mb }} MB</span>
-                    <input name="image_file" type="file" accept="image/png,image/jpeg,image/webp">
+                <div id="image-asset" class="image-asset row g-3 align-items-end">
+                  <label class="col-12 col-md-8">Immagine <span class="optional">PNG, JPEG o WebP · max {{ max_upload_mb }} MB</span>
+                    <input class="form-control" name="image_file" type="file" accept="image/png,image/jpeg,image/webp">
                   </label>
-                  <p id="whatsapp-a4-note" class="muted" hidden>Per WhatsApp carica un’immagine verticale in proporzione A4 (210:297).</p>
-                  <button id="upload-image" class="button secondary" type="button">Carica immagine</button>
-                  <img id="creative-image" class="creative-image" alt="Anteprima dell’immagine associata alla variante" hidden>
+                  <p id="whatsapp-a4-note" class="muted col-12" hidden>Per WhatsApp carica un’immagine verticale in proporzione A4 (210:297).</p>
+                  <button id="upload-image" class="button secondary col-12 col-md-4" type="button">Carica immagine</button>
+                  <img id="creative-image" class="creative-image col-12" alt="Anteprima dell’immagine associata alla variante" hidden>
                 </div>
               </div>
               <div class="form-actions">
@@ -147,7 +149,7 @@
             </form>
           </div>
         </section>
-        <section id="empty-detail" class="panel empty-detail">
+        <section id="empty-detail" class="panel empty-detail col-12">
           <span class="empty-mark" aria-hidden="true">↖</span>
           <h2>Seleziona un annuncio</h2>
           <p class="muted">Qui puoi rivedere il copy generato e modificare le varianti.</p>
