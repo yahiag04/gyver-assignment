@@ -9,6 +9,7 @@ from fastapi.templating import Jinja2Templates
 
 from app.core.config import Settings, get_settings
 from app.controllers.health import router as health_router
+from app.controllers.ads import router as ads_router
 from app.controllers.job_offers import router as job_offers_router
 from app.db.session import Base, create_database
 
@@ -45,6 +46,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     app.include_router(health_router, prefix="/api")
     app.include_router(job_offers_router, prefix="/api")
+    app.include_router(ads_router, prefix="/api")
     return app
 
 
