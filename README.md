@@ -16,14 +16,14 @@ python -m pip install -r requirements.txt
 cp .env.example .env
 ```
 
-Imposta `OPENAI_API_KEY` nel file `.env` per abilitare la generazione. La chiave si crea dalla [dashboard API di OpenAI](https://platform.openai.com/api-keys). Non inserirla nei file sorgente o nei commit. `OPENAI_MODEL` deve essere un modello abilitato per il tuo account che supporta Responses e output JSON Schema strutturato; il nome si può cambiare nel `.env`. Il default `gpt-5.6-terra` è presente nella [documentazione ufficiale dei modelli](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4).
+Imposta `OPENAI_API_KEY` nel file `.env` per abilitare la generazione. La chiave si crea dalla [dashboard API di OpenAI](https://platform.openai.com/api-keys). Non inserirla nei file sorgente o nei commit. `OPENAI_MODEL` deve essere un modello abilitato per il tuo account che supporta Responses e output JSON Schema strutturato; il nome si può cambiare nel `.env`. Il default `gpt-5.6-luna` privilegia il costo e supporta l'output strutturato richiesto dall'app; consulta la [documentazione ufficiale dei modelli](https://developers.openai.com/api/docs/models/gpt-4-and-gpt-4-turbo) per prezzi e disponibilità aggiornati.
 
 ## Configurazione
 
 | Variabile | Default | Uso |
 | --- | --- | --- |
 | `OPENAI_API_KEY` | vuoto | Credenziale server-side per generare copy e varianti. |
-| `OPENAI_MODEL` | `gpt-5.6-terra` | Modello usato dall’endpoint Responses. Verifica che sia abilitato sul tuo account. |
+| `OPENAI_MODEL` | `gpt-5.6-luna` | Modello usato dall’endpoint Responses; override configurabile nel `.env`. Verifica che sia abilitato sul tuo account. |
 | `OPENAI_TIMEOUT_SECONDS` | `45` | Timeout della chiamata LLM, da 1 a 120 secondi. |
 | `DATABASE_URL` | `sqlite:///./data/gyver.db` | URL SQLAlchemy del database. |
 | `UPLOAD_DIR` | `uploads` | Directory locale per le immagini delle creative. |
@@ -81,6 +81,7 @@ Il container gira come utente non root e la porta è pubblicata solo su localhos
 4. Seleziona l’annuncio, consulta le varianti e modifica titolo, testo, requisiti, compenso, campi del canale o creative. **Salva modifiche** aggiorna la variante e ne registra l’origine manuale.
 5. Premi **Genera variante** per creare un’altra versione per lo stesso annuncio.
 6. Per i formati con immagine puoi associare un file PNG, JPEG o WebP. Il server verifica il tipo, la firma del file e il limite configurato; l’anteprima viene servita dalla directory `UPLOAD_DIR`.
+7. Archivia un annuncio cambiandone lo stato; per rimuoverlo definitivamente, usa **Elimina annuncio** e conferma. La cancellazione elimina anche tutte le varianti e le relative immagini caricate.
 
 Senza `OPENAI_API_KEY` le operazioni di lettura, filtro e modifica funzionano sui dati presenti. La creazione generativa restituisce un errore esplicito finché non configuri la chiave.
 
@@ -92,6 +93,7 @@ Senza `OPENAI_API_KEY` le operazioni di lettura, filtro e modifica funzionano su
 - `POST /api/ads`: crea un annuncio e genera la prima variante.
 - `POST /api/ads/{id}/variants`: aggiunge una variante generata.
 - `PATCH /api/ads/{id}`: modifica luogo o stato.
+- `DELETE /api/ads/{id}`: elimina definitivamente annuncio, varianti e immagini caricate.
 - `PATCH /api/ads/{id}/variants/{variant_id}`: modifica il contenuto.
 - `POST /api/ads/{id}/variants/{variant_id}/image`: associa un’immagine multipart nel campo `image`.
 

@@ -43,6 +43,9 @@ input:focus, select:focus, textarea:focus { border-color: #318b7d; box-shadow: 0
 .button.primary:hover:not(:disabled) { background: #195b51; }
 .button.secondary { border: 1px solid #cbd9d0; background: #f7faf7; color: #285e54; }
 .button.secondary:hover:not(:disabled) { background: #edf5ef; }
+.button.danger { border: 1px solid #e4c7c4; background: #fff8f7; color: #a33e35; }
+.button.danger:hover:not(:disabled) { background: #fcebe9; }
+.detail-actions { display: flex; flex-wrap: wrap; gap: 9px; }
 .filters { display: flex; align-items: end; gap: 12px; margin: 0 0 17px; }
 .filters label { min-width: 220px; }
 .workspace { display: grid; grid-template-columns: minmax(250px, .75fr) minmax(0, 1.75fr); align-items: start; gap: 18px; }

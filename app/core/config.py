@@ -14,7 +14,7 @@ class Settings(BaseSettings):
     )
 
     openai_api_key: str | None = None
-    openai_model: str = "gpt-5.6-terra"
+    openai_model: str = "gpt-5.6-luna"
     openai_timeout_seconds: float = Field(default=45, ge=1, le=120)
     database_url: str = "sqlite:///./data/gyver.db"
     upload_dir: Path = Path("uploads")

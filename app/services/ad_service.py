@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from pydantic import ValidationError
 from sqlalchemy.orm import Session
 
@@ -110,6 +112,23 @@ class AdService:
             raise ResourceNotFound("Annuncio non trovato")
         self._commit()
         return self.get_ad(ad_id)
+
+    def delete_ad(self, ad_id: str) -> None:
+        ad = self.get_ad(ad_id)
+        image_paths = [variant.image_path for variant in ad.variants if variant.image_path]
+        self.ads.delete_ad(ad)
+        self._commit()
+        upload_dir = Path(self.settings.upload_dir).resolve()
+        for image_path in image_paths:
+            filename = Path(image_path).name
+            if image_path != f"/uploads/{filename}":
+                continue
+            image_file = (upload_dir / filename).resolve()
+            if image_file.parent == upload_dir:
+                try:
+                    image_file.unlink(missing_ok=True)
+                except OSError:
+                    pass
 
     def update_variant(self, ad_id: str, variant_id: str, data: AdVariantUpdate) -> AdVariant:
         ad = self.get_ad(ad_id)

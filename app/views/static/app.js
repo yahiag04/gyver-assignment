@@ -333,6 +333,28 @@ $("#metadata-form").addEventListener("submit", async (event) => {
   }
 });
 
+$("#delete-ad").addEventListener("click", async (event) => {
+  const ad = state.selectedAd;
+  if (!ad) return;
+  const title = activeVariant()?.title || "questo annuncio";
+  if (!window.confirm(`Eliminare definitivamente “${title}” e tutte le sue varianti?`)) return;
+
+  const button = event.currentTarget;
+  button.disabled = true;
+  try {
+    await api(`/api/ads/${encodeURIComponent(ad.id)}`, { method: "DELETE" });
+    state.ads = state.ads.filter((item) => item.id !== ad.id);
+    state.selectedAd = null;
+    state.selectedVariantId = null;
+    renderAds();
+    notify("Annuncio eliminato.", "success");
+  } catch (error) {
+    notify(error.message, "error");
+  } finally {
+    button.disabled = false;
+  }
+});
+
 $("#variant-form").addEventListener("submit", async (event) => {
   event.preventDefault();
   const ad = state.selectedAd;

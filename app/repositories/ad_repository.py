@@ -52,6 +52,10 @@ class AdRepository:
         self.session.flush()
         return ad
 
+    def delete_ad(self, ad: Ad) -> None:
+        self.session.delete(ad)
+        self.session.flush()
+
     def update_variant(self, variant_id: str, changes: dict) -> AdVariant | None:
         variant = self.get_variant(variant_id)
         if variant is None:

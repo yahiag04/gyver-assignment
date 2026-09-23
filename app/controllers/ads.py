@@ -57,6 +57,14 @@ def create_ad(data: AdCreate, request: Request, session: Session = Depends(get_s
         raise HTTPException(status_code=422, detail=str(exc)) from exc
 
 
+@router.delete("/{ad_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_ad(ad_id: str, request: Request, session: Session = Depends(get_session)) -> None:
+    try:
+        _service(request, session).delete_ad(ad_id)
+    except ResourceNotFound as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+
+
 @router.post("/{ad_id}/variants", response_model=AdVariantRead, status_code=status.HTTP_201_CREATED)
 def generate_variant(
     ad_id: str, data: VariantGenerationRequest, request: Request,
