@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Annunci Gyver</title>
+    <link rel="stylesheet" href="/static/styles.css">
+  </head>
+  <body>
+    <main class="shell">
+      <header class="page-header">
+        <p class="eyebrow">Gyver · Delivery</p>
+        <h1>Annunci</h1>
+        <p>Gestisci copy e varianti per ogni canale di pubblicazione.</p>
+      </header>
+      <p id="notice" class="notice" role="status" aria-live="polite">Caricamento annunci…</p>
+
+      <section class="panel create-panel" aria-labelledby="create-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Nuovo contenuto</p>
+            <h2 id="create-title">Crea un annuncio</h2>
+          </div>
+          <p class="muted">Parti da una job offer. Copy e creative vengono generati per il canale scelto.</p>
+        </div>
+        <form id="create-form" class="form-grid">
+          <label>Job offer
+            <select id="create-offer" name="job_offer_id" required></select>
+          </label>
+          <label>Canale
+            <select name="channel" required>
+              <option value="indeed">Indeed</option>
+              <option value="whatsapp">WhatsApp</option>
+              <option value="instagram">Instagram</option>
+              <option value="tiktok">TikTok</option>
+            </select>
+          </label>
+          <label>Formato
+            <select name="format" required>
+              <option value="text">Solo testo</option>
+              <option value="image">Solo immagine</option>
+              <option value="image_text">Immagine e testo</option>
+            </select>
+          </label>
+          <label>Luogo di pubblicazione <span class="optional">facoltativo</span>
+            <input name="location" maxlength="240" placeholder="Usa il luogo della job offer">
+          </label>
+          <div class="form-actions">
+            <button class="button primary" type="submit">Crea e genera copy</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="filters" aria-label="Filtra annunci">
+        <label>Offerta
+          <select id="filter-offer"><option value="">Tutte le offerte</option></select>
+        </label>
+        <label>Canale
+          <select id="filter-channel">
+            <option value="">Tutti i canali</option>
+            <option value="indeed">Indeed</option>
+            <option value="whatsapp">WhatsApp</option>
+            <option value="instagram">Instagram</option>
+            <option value="tiktok">TikTok</option>
+          </select>
+        </label>
+      </section>
+
+      <section class="workspace" aria-label="Gestione annunci">
+        <aside class="panel ads-panel" aria-labelledby="ads-title">
+          <div class="section-heading compact">
+            <div><p class="eyebrow">Archivio</p><h2 id="ads-title">Annunci</h2></div>
+            <span id="ads-count" class="count">0</span>
+          </div>
+          <div id="ads-list" class="ads-list"></div>
+        </aside>
+
+        <section id="detail" class="panel detail-panel" aria-labelledby="detail-title" hidden>
+          <div class="section-heading">
+            <div><p class="eyebrow">Dettaglio annuncio</p><h2 id="detail-title">—</h2></div>
+            <button id="generate-variant" class="button secondary" type="button">Genera variante</button>
+          </div>
+          <div class="metadata-block">
+            <div id="ad-badges" class="badges"></div>
+            <form id="metadata-form" class="metadata-form">
+              <label>Luogo <input name="location" maxlength="240" required></label>
+              <label>Stato
+                <select name="status">
+                  <option value="draft">Bozza</option>
+                  <option value="ready">Pronto</option>
+                  <option value="published">Pubblicato</option>
+                  <option value="archived">Archiviato</option>
+                </select>
+              </label>
+              <button class="button secondary" type="submit">Salva dettagli</button>
+            </form>
+          </div>
+          <div class="variant-section">
+            <div class="section-heading compact"><div><p class="eyebrow">Copy</p><h3>Varianti</h3></div></div>
+            <div id="variants-list" class="variants-list"></div>
+            <form id="variant-form" class="editor-form" hidden>
+              <div class="editor-heading">
+                <div><h3 id="variant-editor-title">Modifica variante</h3><p id="variant-origin" class="muted"></p></div>
+              </div>
+              <label>Nome variante <input name="variant_name" maxlength="120" required></label>
+              <label>Titolo <input name="title" maxlength="300" required></label>
+              <label id="body-field">Testo annuncio <textarea name="body_text" rows="9"></textarea></label>
+              <label>Requisiti <span class="optional">uno per riga</span><textarea name="requirements" rows="4"></textarea></label>
+              <label>Retribuzione e benefit <textarea name="compensation" rows="3"></textarea></label>
+              <fieldset class="channel-fields">
+                <legend>Campi del canale</legend>
+                <label>Esperienza richiesta <input name="field_experience"></label>
+                <label>Tipo di contratto <input name="field_employment_type"></label>
+                <label>Orario <input name="field_schedule"></label>
+                <label>Link candidatura <input name="field_application_url" inputmode="url"></label>
+              </fieldset>
+              <div id="creative-fields" class="creative-fields">
+                <p class="field-label">Creatività</p>
+                <label>Testo da inserire nell’immagine <textarea name="creative_text" rows="3"></textarea></label>
+                <label>Brief visuale <textarea name="creative_brief" rows="3"></textarea></label>
+              </div>
+              <div class="form-actions">
+                <button class="button primary" type="submit">Salva modifiche</button>
+                <span id="editor-hint" class="muted"></span>
+              </div>
+            </form>
+          </div>
+        </section>
+        <section id="empty-detail" class="panel empty-detail">
+          <span class="empty-mark" aria-hidden="true">↖</span>
+          <h2>Seleziona un annuncio</h2>
+          <p class="muted">Qui puoi rivedere il copy generato e modificare le varianti.</p>
+        </section>
+      </section>
+    </main>
+    <script type="module" src="/static/app.js"></script>
+  </body>
+</html>
