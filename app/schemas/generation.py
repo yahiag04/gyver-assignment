@@ -1,4 +1,4 @@
-from pydantic import BaseModel, ConfigDict, field_validator
+from pydantic import BaseModel, ConfigDict, ValidationInfo, field_validator
 
 from app.models.enums import AdFormat, Channel
 
@@ -17,9 +17,12 @@ class VariantDraft(BaseModel):
 
     @field_validator("variant_name", "title")
     @classmethod
-    def required_text_must_not_be_empty(cls, value: str) -> str:
+    def required_text_must_not_be_empty(cls, value: str, info: ValidationInfo) -> str:
         if not value:
             raise ValueError("must not be empty")
+        max_length = 120 if info.field_name == "variant_name" else 300
+        if len(value) > max_length:
+            raise ValueError(f"must be at most {max_length} characters")
         return value
 
     @field_validator("requirements")
@@ -40,10 +43,10 @@ def validate_variant_draft(draft: VariantDraft, channel: Channel, ad_format: AdF
     if ad_format == AdFormat.TEXT:
         if not draft.body_text:
             raise ValueError("text format requires body_text")
-        if draft.creative_text or draft.creative_brief:
+        if draft.creative_text is not None or draft.creative_brief is not None:
             raise ValueError("text format cannot include creative fields")
     elif ad_format == AdFormat.IMAGE:
-        if draft.body_text:
+        if draft.body_text is not None:
             raise ValueError("image format cannot include body_text")
         if not draft.creative_text or not draft.creative_brief:
             raise ValueError("image format requires creative_text and creative_brief")

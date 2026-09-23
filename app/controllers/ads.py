@@ -116,6 +116,9 @@ async def upload_variant_image(
         except ResourceNotFound as exc:
             path.unlink(missing_ok=True)
             raise HTTPException(status_code=404, detail=str(exc)) from exc
+        except InvalidVariantContent as exc:
+            path.unlink(missing_ok=True)
+            raise HTTPException(status_code=422, detail=str(exc)) from exc
         except Exception:
             path.unlink(missing_ok=True)
             raise

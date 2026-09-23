@@ -145,7 +145,9 @@ class AdService:
         return updated
 
     def attach_variant_image(self, ad_id: str, variant_id: str, image_path: str) -> AdVariant:
-        self.get_ad(ad_id)
+        ad = self.get_ad(ad_id)
+        if ad.ad_format == AdFormat.TEXT:
+            raise InvalidVariantContent("Il formato solo testo non accetta immagini")
         variant = self.ads.get_variant_for_ad(ad_id, variant_id)
         if variant is None:
             raise ResourceNotFound("Variante non trovata per questo annuncio")

@@ -32,34 +32,51 @@ OFFER = {
     "currency": "EUR",
     "required_skills": ["Fotovoltaico industriale", "Cabine secondarie - MT/BT"],
     "role_description": (
-        "Carriera da Tecnico Fotovoltaico MT/BT: costruzione e avviamento di grandi impianti. "
-        "Effettuerai sopralluoghi tecnici, raccoglierai informazioni e segnalerai criticità; "
-        "supporterai il coordinamento di strutture, moduli FV, cablaggi DC/AC e quadri; "
-        "verificherai disegni, avanzamento lavori e attività dei subappaltatori; eseguirai "
-        "collaudi, test funzionali, avviamento e verifiche prestazionali; presidierai HSE e "
-        "qualità e interverrai in campo per la manutenzione in caso di guasti."
+        "**Carriera da Tecnico Fotovoltaico MT/BT – Costruisci una carriera nella costruzione "
+        "e avviamento di grandi impianti**\n\n"
+        "Entra all'interno della divisione dell'azienda specializzata nella realizzazione e "
+        "manutenzione di grandi impianti fotovoltaici. Ti occuperai di:\n\n"
+        "- Effettuare sopralluoghi tecnici in cantiere, raccogliere informazioni dal campo e "
+        "definire lo stato di fatto, segnalare criticità tecniche e operative, proporre soluzioni "
+        "tecniche da condividere con PM ed Engineering e redigere i report di sopralluogo\n"
+        "- Supportare il coordinamento delle attività di montaggio delle strutture, moduli FV, "
+        "cablaggi DC/AC e quadri elettrici effettuati da terze parti\n"
+        "- Verificare la corretta esecuzione delle attività secondo disegni e indicazioni ricevute "
+        "e segnalare scostamenti dal programma lavori\n"
+        "- Eseguire le attività di collaudo attraverso verifiche preliminari, test funzionali, "
+        "avviamento impianto e verifiche prestazionali\n"
+        "- Supportare la verifica tecnica delle attività dei subappaltatori, segnalando non "
+        "conformità o criticità e compilando le check list\n"
+        "- Verificare il rispetto delle regole HSE sulle attività presidiate e segnalare situazioni "
+        "di rischio, supportando il controllo qualità delle installazioni\n"
+        "- Eseguire interventi in campo per la manutenzione in caso di guasti tecnici"
     ),
     "location_and_hours": (
-        "Trasferte giornaliere frequenti (senza indennità); sporadiche trasferte di più "
-        "giorni (con indennità notturna)."
+        "- Trasferte giornaliere frequenti (senza indennità)\n"
+        "- Sporadiche trasferte di più giorni (con indennità notturna)"
     ),
     "company_description": (
-        "AB Group, multinazionale della cogenerazione e biogas, è stata fondata nel 1981 e "
-        "ha sede a Orzinuovi (Brescia). È leader italiana nei settori cogenerazione, biogas "
-        "e rinnovabili, conta oltre 1.700 dipendenti in 20 Paesi tra Europa, Nord e Sud "
-        "America e ha un polo industriale di oltre 40.000 mq."
+        "AB Group – multinazionale della cogenerazione e biogas\n\n"
+        "- Fondato nel 1981 con sede centrale a Orzinuovi (Brescia), il Gruppo AB è l'azienda "
+        "leader italiana nei settori della cogenerazione, biogas e rinnovabili\n"
+        "- L'azienda conta oltre 1.700 dipendenti ed è presente in 20 Paesi tra Europa, Nord e "
+        "Sud America\n"
+        "- Il polo industriale principale si trova a Orzinuovi, su oltre 40.000 mq"
     ),
     "requirements_description": (
-        "Diploma tecnico in elettrotecnica; almeno 3-4 anni di esperienza in installazione "
-        "e avviamento di impianti FV; lettura di schemi elettrici e layout FV; conoscenza "
-        "di inverter, BESS e strumentazione di verifica; esperienza su impianti oltre 100 "
-        "kW e in media tensione."
+        "- Possiedi un diploma tecnico in elettrotecnica\n"
+        "- Hai maturato almeno 3-4 anni di esperienza in installazione e avviamento di impianti FV\n"
+        "- Sai leggere schemi elettrici e layout FV\n"
+        "- Conosci inverter, BESS e strumentazione di verifica impianti FV\n"
+        "- Hai maturato esperienza su impianti FV sopra i 100 kW\n"
+        "- Hai esperienza su impianti di media tensione"
     ),
     "compensation_package": (
-        "RAL da 32.000 a 38.000 EUR in base all'esperienza; indennità di 60 EUR lordi a "
-        "notte per trasferte multi-giorno; ticket da 13 EUR per giorno lavorato; ore di "
-        "viaggio oltre le 8 giornaliere pagate all'85% della paga base come da CCNL; "
-        "contratto a tempo indeterminato."
+        "- RAL da 32.000 a 38.000 € in base all'esperienza\n"
+        "- Indennità di 60 € lordi a notte per le trasferte multi-giorno\n"
+        "- Ticket da 13 € per ogni giorno lavorato\n"
+        "- Ore di viaggio oltre le 8 ore giornaliere pagate all'85% della paga base come da CCNL\n"
+        "- Contratto a tempo indeterminato"
     ),
 }
 

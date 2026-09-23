@@ -7,6 +7,8 @@ Non riportare indirizzo civico o informazioni operative interne. Usa il luogo di
 pubblicazione fornito, che può essere diverso dalla sede dell'azienda. Mantieni
 fedeli RAL, contratto, trasferte e indennità; distingui i benefit confermati da
 quelli ipotetici. Scrivi in italiano naturale, chiaro e rispettoso.
+Per gli anni di esperienza usa la fascia strutturata experience_years; non
+ampliare o restringere la fascia usando formulazioni discordanti in altri campi.
 
 Per Indeed, scrivi un annuncio completo e concreto e valorizza requisiti e campi
 strutturati. Per WhatsApp, privilegia un testo breve e una creative leggibile in
