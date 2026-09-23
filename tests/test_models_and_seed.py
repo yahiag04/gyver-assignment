@@ -95,10 +95,15 @@ def test_seed_is_idempotent_and_creates_assignment_examples(tmp_path):
         ads = AdRepository(session).list_ads(job_offer_id="jo_001")
 
         assert [offer.id for offer in offers] == ["jo_001"]
-        assert len(ads) == 2
+        assert len(ads) == 3
         assert {(ad.channel, ad.ad_format) for ad in ads} == {
             (Channel.INDEED, AdFormat.TEXT),
             (Channel.WHATSAPP, AdFormat.IMAGE_TEXT),
+            (Channel.INSTAGRAM, AdFormat.IMAGE),
         }
-        assert all(len(ad.variants) == 1 for ad in ads)
-        assert all("sample" in ad.variants[0].variant_name.lower() for ad in ads)
+        assert {ad.channel: len(ad.variants) for ad in ads} == {
+            Channel.INDEED: 2,
+            Channel.WHATSAPP: 1,
+            Channel.INSTAGRAM: 1,
+        }
+        assert any(variant.variant_name == "Indeed alternative headline" for ad in ads for variant in ad.variants)

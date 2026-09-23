@@ -15,7 +15,7 @@ from app.services.ad_service import (
     InvalidVariantContent,
     ResourceNotFound,
 )
-from app.services.image_storage import ImageTooLarge, InvalidImage, save_image
+from app.services.image_storage import ImageTooLarge, InvalidImage, InvalidImageDimensions, save_image
 
 
 router = APIRouter(prefix="/ads", tags=["ads"])
@@ -120,7 +120,14 @@ async def upload_variant_image(
     max_bytes = settings.max_upload_mb * 1024 * 1024
     try:
         data = await image.read(max_bytes + 1)
-        path = save_image(data, image.content_type, Path(settings.upload_dir), max_bytes)
+        ad = _service(request, session).get_ad(ad_id)
+        path = save_image(
+            data,
+            image.content_type,
+            Path(settings.upload_dir),
+            max_bytes,
+            require_a4_portrait=ad.channel == Channel.WHATSAPP,
+        )
         image_url = f"/uploads/{path.name}"
         try:
             return _service(request, session).attach_variant_image(ad_id, variant_id, image_url)
@@ -135,6 +142,10 @@ async def upload_variant_image(
             raise
     except ImageTooLarge as exc:
         raise HTTPException(status_code=413, detail=str(exc)) from exc
+    except InvalidImageDimensions as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+    except ResourceNotFound as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
     except InvalidImage as exc:
         raise HTTPException(status_code=415, detail=str(exc)) from exc
     finally:

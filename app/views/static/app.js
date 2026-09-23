@@ -142,6 +142,7 @@ function renderVariantEditor(ad) {
   $("#body-field").hidden = imageOnly;
   $("#creative-fields").hidden = !hasCreative;
   $("#image-asset").hidden = !hasCreative;
+  $("#whatsapp-a4-note").hidden = ad.channel !== "whatsapp";
   const imagePreview = $("#creative-image");
   imagePreview.hidden = !variant.image_path;
   if (variant.image_path) imagePreview.src = variant.image_path;

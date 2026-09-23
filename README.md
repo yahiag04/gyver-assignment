@@ -80,7 +80,7 @@ Il container gira come utente non root e la porta è pubblicata solo su localhos
 3. Premi **Crea e genera copy**. Il backend salva insieme la bozza e la prima variante solo dopo aver ricevuto e validato l’output LLM.
 4. Seleziona l’annuncio, consulta le varianti e modifica titolo, testo, requisiti, compenso, campi del canale o creative. **Salva modifiche** aggiorna la variante e ne registra l’origine manuale.
 5. Premi **Genera variante** per creare un’altra versione per lo stesso annuncio.
-6. Per i formati con immagine puoi associare un file PNG, JPEG o WebP. Il server verifica il tipo, la firma del file e il limite configurato; l’anteprima viene servita dalla directory `UPLOAD_DIR`.
+6. Per i formati con immagine puoi associare un file PNG, JPEG o WebP. Il server verifica tipo, firma e limite configurato; per WhatsApp richiede inoltre proporzioni verticali A4 (210:297, tolleranza 2%). L’anteprima viene servita da `UPLOAD_DIR`.
 7. Archivia un annuncio cambiandone lo stato; per rimuoverlo definitivamente, usa **Elimina annuncio** e conferma. La cancellazione elimina anche tutte le varianti e le relative immagini caricate.
 
 Senza `OPENAI_API_KEY` le operazioni di lettura, filtro e modifica funzionano sui dati presenti. La creazione generativa restituisce un errore esplicito finché non configuri la chiave.
@@ -97,4 +97,4 @@ Senza `OPENAI_API_KEY` le operazioni di lettura, filtro e modifica funzionano su
 - `PATCH /api/ads/{id}/variants/{variant_id}`: modifica il contenuto.
 - `POST /api/ads/{id}/variants/{variant_id}/image`: associa un’immagine multipart nel campo `image`.
 
-Errori di validazione restituiscono `422`; risorse inesistenti `404`; credenziali/provider non disponibili `503`; risposta LLM non valida `502`; file immagine troppo grande `413` o non valido `415`.
+Errori di validazione restituiscono `422` (incluse proporzioni non A4 per WhatsApp); risorse inesistenti `404`; credenziali/provider non disponibili `503`; risposta LLM non valida `502`; file immagine troppo grande `413` o non valido `415`.

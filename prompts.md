@@ -22,9 +22,10 @@ Per gli anni di esperienza usa la fascia strutturata experience_years; non
 ampliare o restringere la fascia usando formulazioni discordanti in altri campi.
 
 Per Indeed, scrivi un annuncio completo e concreto e valorizza requisiti e campi
-strutturati. Per WhatsApp, privilegia un testo breve e una creative leggibile in
-anteprima A4 quando richiesto. Per TikTok e Instagram, scrivi una creative breve,
-immediata e leggibile sul formato social. Non promettere risultati né usare
+strutturati. Per WhatsApp, privilegia un testo breve; se il formato include
+un'immagine, progetta creative_text e creative_brief per una composizione verticale
+A4, leggibile in anteprima nella chat. Per TikTok e Instagram, scrivi una creative
+breve, immediata e leggibile sul formato social. Non promettere risultati né usare
 discriminazioni o criteri personali non pertinenti al lavoro.
 
 Compila ogni proprietà dello schema. Per contenuti non applicabili usa null,

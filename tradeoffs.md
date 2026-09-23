@@ -13,7 +13,7 @@
 ## Ambiguità interpretate
 
 - Ogni `Ad` rappresenta una pubblicazione/canale/formato/luogo; una variante rappresenta una versione del contenuto di quell’annuncio. Un annuncio Indeed e uno WhatsApp per la stessa offerta sono record distinti.
-- “Immagine” descrive una creative con testo e brief; l’app non compone grafiche. È possibile caricare PNG, JPEG o WebP esistenti, associati a una variante, con limite configurabile.
+- “Immagine” descrive una creative con testo e brief; l’app non compone grafiche. È possibile caricare PNG, JPEG o WebP esistenti, associati a una variante, con limite configurabile. Per WhatsApp viene verificato il rapporto verticale A4 (tolleranza 2%); per i social le proporzioni restano libere.
 - Lo stato `published` è solo un valore del workflow interno. Non esistono credenziali né integrazioni per pubblicare davvero sui canali.
 - La job offer fornisce i fatti interni; il luogo di pubblicazione è invece inserito o confermato dal team Delivery. Il modello non riceve via e numero civico dell’offerta.
 - I benefici e gli importi devono provenire dall’offerta. Se un dato non è disponibile, il prompt chiede di ometterlo anziché inventarlo.
