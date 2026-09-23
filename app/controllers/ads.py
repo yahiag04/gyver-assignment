@@ -21,31 +21,32 @@ from app.services.image_storage import ImageTooLarge, InvalidImage, save_image
 router = APIRouter(prefix="/ads", tags=["ads"])
 
 
-def _service(session: Session) -> AdService:
-    return AdService(session)
+def _service(request: Request, session: Session) -> AdService:
+    return AdService(session, request.app.state.settings)
 
 
 @router.get("", response_model=list[AdSummary])
 def list_ads(
+    request: Request,
     job_offer_id: str | None = Query(default=None),
     channel: Channel | None = Query(default=None),
     session: Session = Depends(get_session),
 ) -> list[AdSummary]:
-    return _service(session).list_ads(job_offer_id=job_offer_id, channel=channel)
+    return _service(request, session).list_ads(job_offer_id=job_offer_id, channel=channel)
 
 
 @router.get("/{ad_id}", response_model=AdRead)
-def get_ad(ad_id: str, session: Session = Depends(get_session)) -> AdRead:
+def get_ad(ad_id: str, request: Request, session: Session = Depends(get_session)) -> AdRead:
     try:
-        return _service(session).get_ad(ad_id)
+        return _service(request, session).get_ad(ad_id)
     except ResourceNotFound as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
 
 
 @router.post("", response_model=AdRead, status_code=status.HTTP_201_CREATED)
-def create_ad(data: AdCreate, session: Session = Depends(get_session)) -> AdRead:
+def create_ad(data: AdCreate, request: Request, session: Session = Depends(get_session)) -> AdRead:
     try:
-        return _service(session).create_ad(data)
+        return _service(request, session).create_ad(data)
     except ResourceNotFound as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
     except GenerationUnavailable as exc:
@@ -58,10 +59,11 @@ def create_ad(data: AdCreate, session: Session = Depends(get_session)) -> AdRead
 
 @router.post("/{ad_id}/variants", response_model=AdVariantRead, status_code=status.HTTP_201_CREATED)
 def generate_variant(
-    ad_id: str, data: VariantGenerationRequest, session: Session = Depends(get_session)
+    ad_id: str, data: VariantGenerationRequest, request: Request,
+    session: Session = Depends(get_session)
 ) -> AdVariantRead:
     try:
-        return _service(session).generate_additional_variant(ad_id, data.variant_name)
+        return _service(request, session).generate_additional_variant(ad_id, data.variant_name)
     except ResourceNotFound as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
     except GenerationUnavailable as exc:
@@ -71,9 +73,9 @@ def generate_variant(
 
 
 @router.patch("/{ad_id}", response_model=AdRead)
-def update_ad(ad_id: str, data: AdUpdate, session: Session = Depends(get_session)) -> AdRead:
+def update_ad(ad_id: str, data: AdUpdate, request: Request, session: Session = Depends(get_session)) -> AdRead:
     try:
-        return _service(session).update_ad(ad_id, data)
+        return _service(request, session).update_ad(ad_id, data)
     except ResourceNotFound as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
 
@@ -83,10 +85,11 @@ def update_variant(
     ad_id: str,
     variant_id: str,
     data: AdVariantUpdate,
+    request: Request,
     session: Session = Depends(get_session),
 ) -> AdVariantRead:
     try:
-        return _service(session).update_variant(ad_id, variant_id, data)
+        return _service(request, session).update_variant(ad_id, variant_id, data)
     except ResourceNotFound as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
     except InvalidVariantContent as exc:
@@ -112,7 +115,7 @@ async def upload_variant_image(
         path = save_image(data, image.content_type, Path(settings.upload_dir), max_bytes)
         image_url = f"/uploads/{path.name}"
         try:
-            return _service(session).attach_variant_image(ad_id, variant_id, image_url)
+            return _service(request, session).attach_variant_image(ad_id, variant_id, image_url)
         except ResourceNotFound as exc:
             path.unlink(missing_ok=True)
             raise HTTPException(status_code=404, detail=str(exc)) from exc

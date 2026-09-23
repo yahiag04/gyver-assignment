@@ -131,7 +131,9 @@ class AdService:
         merged.update(changes)
         try:
             draft = VariantDraft.model_validate(merged)
-            validate_variant_draft(draft, ad.channel, ad.ad_format)
+            validate_variant_draft(
+                draft, ad.channel, ad.ad_format, allow_custom_channel_fields=True
+            )
         except (ValidationError, ValueError) as exc:
             raise InvalidVariantContent(str(exc)) from exc
 

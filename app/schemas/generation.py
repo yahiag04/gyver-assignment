@@ -32,14 +32,23 @@ class VariantDraft(BaseModel):
 
     @field_validator("channel_fields")
     @classmethod
-    def supported_channel_field_names(cls, values: dict[str, str | None]) -> dict[str, str | None]:
-        allowed = {"experience", "employment_type", "schedule", "application_url"}
-        if set(values) - allowed:
-            raise ValueError("channel_fields contains unsupported field names")
+    def clean_channel_fields(cls, values: dict[str, str | None]) -> dict[str, str | None]:
         return {key: value.strip() if value else None for key, value in values.items()}
 
 
-def validate_variant_draft(draft: VariantDraft, channel: Channel, ad_format: AdFormat) -> VariantDraft:
+def validate_variant_draft(
+    draft: VariantDraft,
+    channel: Channel,
+    ad_format: AdFormat,
+    *,
+    allow_custom_channel_fields: bool = False,
+    require_complete_channel_fields: bool = False,
+) -> VariantDraft:
+    allowed_fields = {"experience", "employment_type", "schedule", "application_url"}
+    if not allow_custom_channel_fields and set(draft.channel_fields) - allowed_fields:
+        raise ValueError("channel_fields contains unsupported field names")
+    if require_complete_channel_fields and set(draft.channel_fields) != allowed_fields:
+        raise ValueError("channel_fields must contain all supported fields")
     if ad_format == AdFormat.TEXT:
         if not draft.body_text:
             raise ValueError("text format requires body_text")

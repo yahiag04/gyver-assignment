@@ -69,6 +69,7 @@ function renderAds() {
   }
   for (const ad of state.ads) {
     const title = ad.variants[0]?.title || channelLabels[ad.channel] || "Annuncio";
+    const offer = state.offers.find((item) => item.id === ad.job_offer_id);
     const button = document.createElement("button");
     button.type = "button";
     button.className = "ad-card";
@@ -76,6 +77,7 @@ function renderAds() {
     button.append(
       textElement("span", "ad-card-title", title),
       textElement("span", "ad-card-meta", `${channelLabels[ad.channel] || ad.channel} · ${formatLabels[ad.format] || ad.format}`),
+      textElement("span", "ad-card-location", offer ? `${offer.title} · ${offer.company_name}` : ad.job_offer_id),
       textElement("span", "ad-card-location", ad.location),
       textElement("span", `status-pill status-${ad.status}`, statusLabels[ad.status] || ad.status),
     );
@@ -156,6 +158,8 @@ function renderDetail(ad) {
   $("#empty-detail").hidden = true;
   $("#detail-title").textContent = activeVariant()?.title || ad.variants[0]?.title || "Annuncio";
   renderBadges(ad);
+  const offer = state.offers.find((item) => item.id === ad.job_offer_id);
+  $("#detail-offer").textContent = offer ? `${offer.title} · ${offer.company_name}` : ad.job_offer_id;
   $("#metadata-form").elements.namedItem("location").value = ad.location;
   $("#metadata-form").elements.namedItem("status").value = ad.status;
   renderVariantEditor(ad);
@@ -243,16 +247,21 @@ $("#filter-channel").addEventListener("change", loadAds);
 
 $("#generate-variant").addEventListener("click", async (event) => {
   if (!state.selectedAd) return;
+  const adId = state.selectedAd.id;
   const button = event.currentTarget;
   button.disabled = true;
   notify("Generazione della variante in corso…");
   try {
-    const variant = await api(`/api/ads/${encodeURIComponent(state.selectedAd.id)}/variants`, {
+    const variant = await api(`/api/ads/${encodeURIComponent(adId)}/variants`, {
       method: "POST", body: JSON.stringify({}),
     });
-    const ad = await api(`/api/ads/${encodeURIComponent(state.selectedAd.id)}`);
-    state.selectedVariantId = variant.id;
-    renderDetail(ad);
+    if (state.selectedAd?.id === adId) {
+      const ad = await api(`/api/ads/${encodeURIComponent(adId)}`);
+      if (state.selectedAd?.id === adId) {
+        state.selectedVariantId = variant.id;
+        renderDetail(ad);
+      }
+    }
     notify("Nuova variante generata.", "success");
   } catch (error) {
     notify(error.message, "error");
@@ -310,6 +319,9 @@ $("#metadata-form").addEventListener("submit", async (event) => {
     });
     const previousVariantId = state.selectedVariantId;
     state.selectedAd = ad;
+    state.ads = state.ads.map((item) => item.id === ad.id
+      ? { ...item, location: ad.location, status: ad.status, variants: ad.variants }
+      : item);
     state.selectedVariantId = ad.variants.some((variant) => variant.id === previousVariantId)
       ? previousVariantId : ad.variants[0]?.id || null;
     renderDetail(ad);

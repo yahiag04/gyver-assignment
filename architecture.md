@@ -46,7 +46,7 @@ erDiagram
 - `Ad.location` è il luogo mostrato per quello specifico annuncio. Non è derivato in modo permanente dalla sede della job offer e può differire tra annunci della stessa offerta.
 - `AdVariant` contiene una versione del contenuto: titolo, body, requisiti, compenso, dati strutturati del canale, testo e brief della creative, immagine associata e origine (`llm` o `manual`). Più annunci e più varianti possono puntare alla stessa offerta.
 
-Non c’è una tabella separata per canale: gli enum sono sufficienti per questo prototipo. `channel_fields` è JSON così il modello può conservare piccoli campi di pubblicazione specifici senza cambiare schema ad ogni canale. L’output generato usa un insieme controllato (`experience`, `employment_type`, `schedule`, `application_url`); varianti manuali possono conservare altri campi JSON.
+Non c’è una tabella separata per canale: gli enum sono sufficienti per questo prototipo. `channel_fields` è JSON così il modello può conservare piccoli campi di pubblicazione specifici senza cambiare schema ad ogni canale. L’output generato usa un insieme controllato (`experience`, `employment_type`, `schedule`, `application_url`); le modifiche manuali conservano anche eventuali campi JSON aggiuntivi già presenti.
 
 ## Flusso dei dati
 

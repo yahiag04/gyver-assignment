@@ -102,7 +102,9 @@ class OpenAIClient:
             raise LLMOutputError("La risposta del provider non contiene testo strutturato")
         try:
             draft = VariantDraft.model_validate_json(output_text)
-            return validate_variant_draft(draft, channel, ad_format)
+            return validate_variant_draft(
+                draft, channel, ad_format, require_complete_channel_fields=True
+            )
         except (ValidationError, ValueError) as exc:
             raise LLMOutputError("La risposta del provider non rispetta il formato richiesto") from exc
 
