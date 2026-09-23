@@ -13,9 +13,10 @@ function notify(message, kind = "info") {
 }
 
 async function api(path, options = {}) {
+  const isFormData = options.body instanceof FormData;
   const response = await fetch(path, {
     ...options,
-    headers: { ...(options.body ? { "Content-Type": "application/json" } : {}), ...options.headers },
+    headers: { ...(options.body && !isFormData ? { "Content-Type": "application/json" } : {}), ...options.headers },
   });
   let data = null;
   if (response.status !== 204) {
@@ -138,6 +139,12 @@ function renderVariantEditor(ad) {
   const hasCreative = imageOnly || ad.format === "image_text";
   $("#body-field").hidden = imageOnly;
   $("#creative-fields").hidden = !hasCreative;
+  $("#image-asset").hidden = !hasCreative;
+  const imagePreview = $("#creative-image");
+  imagePreview.hidden = !variant.image_path;
+  if (variant.image_path) imagePreview.src = variant.image_path;
+  else imagePreview.removeAttribute("src");
+  form.elements.namedItem("image_file").value = "";
   form.elements.namedItem("body_text").required = !imageOnly;
   form.elements.namedItem("creative_text").required = hasCreative;
   form.elements.namedItem("creative_brief").required = hasCreative;
@@ -247,6 +254,35 @@ $("#generate-variant").addEventListener("click", async (event) => {
     state.selectedVariantId = variant.id;
     renderDetail(ad);
     notify("Nuova variante generata.", "success");
+  } catch (error) {
+    notify(error.message, "error");
+  } finally {
+    button.disabled = false;
+  }
+});
+
+$("#upload-image").addEventListener("click", async (event) => {
+  const ad = state.selectedAd;
+  const variant = activeVariant();
+  const file = $("#variant-form").elements.namedItem("image_file").files[0];
+  if (!ad || !variant) return;
+  if (!file) {
+    notify("Seleziona un'immagine prima di caricarla.", "error");
+    return;
+  }
+  const button = event.currentTarget;
+  button.disabled = true;
+  notify("Caricamento immagine in corso…");
+  try {
+    const formData = new FormData();
+    formData.append("image", file);
+    await api(`/api/ads/${encodeURIComponent(ad.id)}/variants/${encodeURIComponent(variant.id)}/image`, {
+      method: "POST", body: formData,
+    });
+    const updated = await api(`/api/ads/${encodeURIComponent(ad.id)}`);
+    state.selectedVariantId = variant.id;
+    renderDetail(updated);
+    notify("Immagine associata alla variante.", "success");
   } catch (error) {
     notify(error.message, "error");
   } finally {

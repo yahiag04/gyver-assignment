@@ -118,6 +118,13 @@
                 <p class="field-label">Creatività</p>
                 <label>Testo da inserire nell’immagine <textarea name="creative_text" rows="3"></textarea></label>
                 <label>Brief visuale <textarea name="creative_brief" rows="3"></textarea></label>
+                <div id="image-asset" class="image-asset">
+                  <label>Immagine <span class="optional">PNG, JPEG o WebP · max {{ max_upload_mb }} MB</span>
+                    <input name="image_file" type="file" accept="image/png,image/jpeg,image/webp">
+                  </label>
+                  <button id="upload-image" class="button secondary" type="button">Carica immagine</button>
+                  <img id="creative-image" class="creative-image" alt="Anteprima dell’immagine associata alla variante" hidden>
+                </div>
               </div>
               <div class="form-actions">
                 <button class="button primary" type="submit">Salva modifiche</button>

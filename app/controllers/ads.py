@@ -1,4 +1,6 @@
-from fastapi import APIRouter, Depends, HTTPException, Query, status
+from pathlib import Path
+
+from fastapi import APIRouter, Depends, File, HTTPException, Query, Request, UploadFile, status
 from sqlalchemy.orm import Session
 
 from app.db.session import get_session
@@ -13,6 +15,7 @@ from app.services.ad_service import (
     InvalidVariantContent,
     ResourceNotFound,
 )
+from app.services.image_storage import ImageTooLarge, InvalidImage, save_image
 
 
 router = APIRouter(prefix="/ads", tags=["ads"])
@@ -88,3 +91,37 @@ def update_variant(
         raise HTTPException(status_code=404, detail=str(exc)) from exc
     except InvalidVariantContent as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+
+@router.post(
+    "/{ad_id}/variants/{variant_id}/image",
+    response_model=AdVariantRead,
+    status_code=status.HTTP_201_CREATED,
+)
+async def upload_variant_image(
+    ad_id: str,
+    variant_id: str,
+    request: Request,
+    image: UploadFile = File(...),
+    session: Session = Depends(get_session),
+) -> AdVariantRead:
+    settings = request.app.state.settings
+    max_bytes = settings.max_upload_mb * 1024 * 1024
+    try:
+        data = await image.read(max_bytes + 1)
+        path = save_image(data, image.content_type, Path(settings.upload_dir), max_bytes)
+        image_url = f"/uploads/{path.name}"
+        try:
+            return _service(session).attach_variant_image(ad_id, variant_id, image_url)
+        except ResourceNotFound as exc:
+            path.unlink(missing_ok=True)
+            raise HTTPException(status_code=404, detail=str(exc)) from exc
+        except Exception:
+            path.unlink(missing_ok=True)
+            raise
+    except ImageTooLarge as exc:
+        raise HTTPException(status_code=413, detail=str(exc)) from exc
+    except InvalidImage as exc:
+        raise HTTPException(status_code=415, detail=str(exc)) from exc
+    finally:
+        await image.close()

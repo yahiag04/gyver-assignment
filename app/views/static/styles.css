@@ -78,6 +78,8 @@ input:focus, select:focus, textarea:focus { border-color: #318b7d; box-shadow: 0
 .channel-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; border: 1px solid #e3eae3; border-radius: 10px; padding: 14px; }
 .channel-fields legend { padding: 0 5px; color: #475d52; font-size: .8rem; font-weight: 750; }
 .creative-fields { display: grid; gap: 12px; border-left: 3px solid #e0ede3; padding-left: 13px; }
+.image-asset { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 10px; }
+.creative-image { grid-column: 1 / -1; display: block; max-width: min(100%, 340px); max-height: 340px; object-fit: contain; border: 1px solid #e2e8e1; border-radius: 9px; background: #f7f8f5; }
 .field-label { margin: 0; color: #466156; font-size: .83rem; font-weight: 800; }
 .empty-list { margin: 0; padding: 22px 6px; color: #819087; font-size: .88rem; text-align: center; }
 .empty-detail { min-height: 300px; display: grid; align-content: center; justify-items: center; padding: 40px; text-align: center; }

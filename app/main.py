@@ -42,7 +42,11 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     @app.get("/", response_class=HTMLResponse, include_in_schema=False)
     def index(request: Request) -> HTMLResponse:
-        return templates.TemplateResponse(request=request, name="index.html")
+        return templates.TemplateResponse(
+            request=request,
+            name="index.html",
+            context={"max_upload_mb": app.state.settings.max_upload_mb},
+        )
 
     app.include_router(health_router, prefix="/api")
     app.include_router(job_offers_router, prefix="/api")

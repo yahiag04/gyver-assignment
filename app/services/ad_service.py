@@ -143,3 +143,12 @@ class AdService:
         updated = self.ads.update_variant(variant_id, normalized)
         self._commit()
         return updated
+
+    def attach_variant_image(self, ad_id: str, variant_id: str, image_path: str) -> AdVariant:
+        self.get_ad(ad_id)
+        variant = self.ads.get_variant_for_ad(ad_id, variant_id)
+        if variant is None:
+            raise ResourceNotFound("Variante non trovata per questo annuncio")
+        updated = self.ads.update_variant(variant_id, {"image_path": image_path})
+        self._commit()
+        return updated
